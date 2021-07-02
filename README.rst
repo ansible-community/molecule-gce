@@ -1,6 +1,6 @@
-*************************
-Molecule OpenStack Plugin
-*************************
+*******************
+Molecule GCE Plugin
+*******************
 
 .. image:: https://badge.fury.io/py/molecule-gce.svg
    :target: https://badge.fury.io/py/molecule-gce
