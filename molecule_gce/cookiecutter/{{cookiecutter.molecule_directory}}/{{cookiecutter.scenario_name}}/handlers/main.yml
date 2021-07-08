@@ -2,7 +2,7 @@
   set_fact:
     instance_conf_dict: {
       'instance': "{{ item.name }}",
-      'address': "{{ molecule_yml.driver.external_access | ternary(item.networkInterfaces.0.accessConfigs.0.natIP, item.networkInterfaces.0.networkIP) }}",
+      'address': "{{ item.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else item.networkInterfaces.0.networkIP) }}",
       'user': "{{ ansible_user }}",
       'port': "{{ ansible_port }}",
       'identity_file': "{{ ssh_identity_file }}", }
