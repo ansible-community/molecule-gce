@@ -1,0 +1,6 @@
+{% raw -%}
+collections:
+  - name: google.cloud
+    version: 1.0.2
+    source: https://galaxy.ansible.com
+{%- endraw %}    

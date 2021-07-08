@@ -1,0 +1,31 @@
+---
+dependency:
+  name: {{ cookiecutter.dependency_name }}
+driver:
+  name: {{ cookiecutter.driver_name }}
+  network_name: null #specify if other than default
+  subnetwork_name: null #specify if other than default
+  vpc_host_project: null #if you use a shared vpc, set here the vpc host project. In such case, your gcp user needs the necessary permissions in the host project, see https://cloud.google.com/vpc/docs/shared-vpc#iam_in_shared_vpc
+  auth_kind: change me to machineaccount or serviceaccount or application #if set to null will read env GCP_AUTH_KIND
+  service_account_email: change me to an email associated with the project #if set to null, will default to GCP_SERVICE_ACCOUNT_EMAIL. Should not be set if using auth_kind serviceaccount.
+  service_account_file: change me to the path to the JSON credentials file #if set to null, will default to env GCP_SERVICE_ACCOUNT_FILE
+  project_id: id of the project #if set to null, will default to env GCE_PROJECT_ID
+  scopes: https://www.googleapis.com/auth/compute #example https://www.googleapis.com/auth/compute, will default to env GCP_SCOPES
+  region: change me to a gcp region # example: us-central1, will default to your project default region
+  zone: change me to a gcp zone within the region # example: us-west1-b, will default to your project default zone
+  external_access: true #chose whether to connect through external or internal ip
+platforms:
+  - name: instance # is an instance name
+    machine_type: n1-standard-1 #define your machine type
+    disk_size_gb: 20 #set as needed
+    disk_image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image - works only with Linux images
+    disk_image_encryption_key: null #only set it if you encrypt your images with your own encryption key
+provisioner:
+  name: {{ cookiecutter.provisioner_name }}
+verifier:
+  name: {{ cookiecutter.verifier_name }}
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8

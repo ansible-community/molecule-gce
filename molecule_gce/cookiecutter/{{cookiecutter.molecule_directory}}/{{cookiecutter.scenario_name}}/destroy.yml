@@ -7,17 +7,22 @@
   no_log: "{{ molecule_no_log }}"
   tasks:
     - name: Destroy molecule instance(s)
-      gce:
-        instance_names: "{{ item.name }}"
+      google.cloud.gcp_compute_instance:
+        name: "{{ item.name }}"
         state: absent
-        zone: "{{ item.zone }}"
-        service_account_email: "{{ lookup('env', 'GCE_SERVICE_ACCOUNT_EMAIL') }}"
-        credentials_file: "{{ lookup('env', 'GCE_CREDENTIALS_FILE') }}"
-        project_id: "{{ lookup('env', 'GCE_PROJECT_ID') }}"
+        zone: "{{ molecule_yml.driver.zone | default(omit)}}"
+        project: "{{ molecule_yml.driver.project_id |  default(omit) }}"
+        scopes:
+          - "{{ molecule_yml.driver.scopes | default('https://www.googleapis.com/auth/compute') }}"
+        service_account_email: "{{ molecule_yml.driver.service_account_email | default(omit, true) }}"
+        service_account_file: "{{ molecule_yml.driver.service_account_file | default(omit) }}"
       register: server
       with_items: "{{ molecule_yml.platforms }}"
       async: 7200
       poll: 0
+      notify:
+        - "Wipe out instance config"
+        - "Dump instance config"
 
     - name: Wait for instance(s) deletion to complete
       async_status:
@@ -27,15 +32,7 @@
       retries: 300
       with_items: "{{ server.results }}"
 
-    # Mandatory configuration for Molecule to function.
-
-    - name: Populate instance config
-      set_fact:
-        instance_conf: {}
-
-    - name: Dump instance config
-      copy:
-        content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
-        dest: "{{ molecule_instance_config }}"
-      when: server.changed | bool
+  handlers:
+    - name: Import main handler tasks
+      import_tasks: handlers/main.yml
 {%- endraw %}
