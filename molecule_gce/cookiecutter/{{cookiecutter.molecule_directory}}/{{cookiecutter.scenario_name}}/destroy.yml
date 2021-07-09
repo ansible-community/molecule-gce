@@ -10,7 +10,7 @@
       google.cloud.gcp_compute_instance:
         name: "{{ item.name }}"
         state: absent
-        zone: "{{ molecule_yml.driver.zone | default(omit)}}"
+        zone: "{{ molecule_yml.driver.zone | default(omit) }}"
         project: "{{ molecule_yml.driver.project_id |  default(omit) }}"
         scopes:
           - "{{ molecule_yml.driver.scopes | default('https://www.googleapis.com/auth/compute') }}"
