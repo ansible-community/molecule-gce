@@ -1,12 +1,16 @@
+---
+{% raw -%}
 - name: Populate instance config dict
   set_fact:
     instance_conf_dict: {
-      'instance': "{{ item.name }}",
-      'address': "{{ item.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else item.networkInterfaces.0.networkIP }}",
+      'instance': "{{ instance_info.name }}",
+      'address': "{{ instance_info.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else instance_info.networkInterfaces.0.networkIP }}",
       'user': "{{ ansible_user }}",
       'port': "{{ ansible_port }}",
       'identity_file': "{{ ssh_identity_file }}", }
-  with_items: "{{ gce_jobs.results }}"
+  loop: "{{ server.results }}"
+  loop_control:
+      loop_var: instance_info  
   register: instance_config_dict
 
 - name: Wipe out instance config
@@ -22,3 +26,4 @@
     content: "{{ instance_conf }}"
     dest: "{{ molecule_instance_config }}"
     mode: '0600'
+{%- endraw %}

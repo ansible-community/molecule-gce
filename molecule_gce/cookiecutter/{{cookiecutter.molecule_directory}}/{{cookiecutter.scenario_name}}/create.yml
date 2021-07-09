@@ -67,22 +67,23 @@
             - "{{ molecule_yml.driver.scopes | default('https://www.googleapis.com/auth/compute') }}"
           service_account_email: "{{ molecule_yml.driver.service_account_email | default(omit, true) }}"
           service_account_file: "{{ molecule_yml.driver.service_account_file | default(omit) }}"
-      register: server
-      with_items: "{{ molecule_yml.platforms }}"
+      register: async_results
+      loop: "{{ molecule_yml.platforms }}"
       async: 7200
       poll: 0
-      notify:
-        - "Populate instance config dict"
-        - "Convert instance config dict to a list"
-        - "Dump instance config"
 
     - name: Wait for instance(s) creation to complete
       async_status:
         jid: "{{ item.ansible_job_id }}"
-      register: gce_jobs
-      until: gce_jobs.finished
+      loop: "{{ async_results.results }}"
+      register: server
+      until: server.finished
       retries: 300
-      with_items: "{{ server.results }}"
+      delay: 10
+      notify:
+        - "Populate instance config dict"
+        - "Convert instance config dict to a list"
+        - "Dump instance config"
 
     - name: Wait for SSH
       wait_for:
@@ -90,7 +91,7 @@
         host: "{{ item.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else item.networkInterfaces.0.networkIP }}"
         search_regex: SSH
         delay: 10
-      with_items: "{{ gce_jobs.results }}"
+      loop: "{{ server.results }}"
 
   handlers:
     - name: Import main handler tasks
