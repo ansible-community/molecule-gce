@@ -11,7 +11,7 @@
         name: "{{ item.name }}"
         state: absent
         zone: "{{ molecule_yml.driver.zone | default(omit) }}"
-        project: "{{ molecule_yml.driver.project_id |  default(omit) }}"
+        project: "{{ molecule_yml.driver.project_id |  default(lookup('env', 'GCE_PROJECT_ID')) }}"
         scopes:
           - "{{ molecule_yml.driver.scopes | default('https://www.googleapis.com/auth/compute') }}"
         service_account_email: "{{ molecule_yml.driver.service_account_email | default(lookup('env', 'GCP_SERVICE_ACCOUNT_EMAIL')) }}"
