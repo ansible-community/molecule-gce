@@ -17,7 +17,7 @@
     gcp_project: "{{  molecule_yml.driver.project_id }}"
     gcp_region: "{{ molecule_yml.driver.region }}"
     gcp_zone: "{{ molecule_yml.driver.zone }}"
-    gcp_scopes: "{{ molecule_yml.driver.scopes | default([ 'https://www.googleapis.com/auth/compute ]', True) }}"
+    gcp_scopes: "{{ molecule_yml.driver.scopes | default(['https://www.googleapis.com/auth/compute'], True) }}"
     gce_external_access: "{{ molecule_yml.driver.external_access }}"
     gcp_sa_mail: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
     gcp_sa_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
@@ -82,7 +82,7 @@
           scopes: "{{ gcp_scopes }}"
           service_account_email: "{{ gcp_sa_mail }}"
           service_account_file: "{{ gcp_sa_file }}"
-          auth_kind: "{{ gcp_auth_kind) }}"
+          auth_kind: "{{ gcp_auth_kind }}"
       register: async_results
       loop: "{{ molecule_yml.platforms }}"
       async: 7200
