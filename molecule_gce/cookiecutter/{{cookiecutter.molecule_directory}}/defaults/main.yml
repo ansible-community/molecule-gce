@@ -1,0 +1,11 @@
+gcp_auth_kind: "{{ lookup('env', 'GCP_AUTH_KIND') | default(omit, True) }}"
+gcp_network: null
+gcp_subnetwork: null
+gcp_vpc_host_project: null
+gcp_project: null
+gcp_region: null
+gcp_zone: null
+gcp_scopes: "[ {{ lookup('env', 'GCP_SCOPES') | default('https://www.googleapis.com/auth/compute', True) }} ]"
+gce_external_access: true
+gcp_sa_mail: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_EMAIL') | default(omit, True) }}"
+gcp_sa_file: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_FILE')| default(omit, True) }}"
