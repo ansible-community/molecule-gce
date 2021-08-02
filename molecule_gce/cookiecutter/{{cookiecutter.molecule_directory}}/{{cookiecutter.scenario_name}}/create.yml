@@ -6,31 +6,35 @@
   gather_facts: false
   no_log: "{{ molecule_no_log }}"
   vars:
-    ansible_port: 22
-    ansible_user: "{{ lookup('env', 'USER') }}"
     ssh_identity_file: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
     external_access_config: []
-    gcp_auth_kind: "{{ molecule_yml.driver.auth_kind | default(omit, true) }}"
-    gcp_network: "{{ molecule_yml.driver.network_name }}"
-    gcp_subnetwork: "{{ molecule_yml.driver.subnetwork_name }}"
-    gcp_vpc_host_project: "{{ molecule_yml.driver.vpc_host_project }}"
-    gcp_project: "{{  molecule_yml.driver.project_id }}"
-    gcp_region: "{{ molecule_yml.driver.region }}"
-    gcp_zone: "{{ molecule_yml.driver.zone }}"
-    gcp_scopes: "{{ molecule_yml.driver.scopes | default(['https://www.googleapis.com/auth/compute'], True) }}"
-    gce_external_access: "{{ molecule_yml.driver.external_access }}"
-    gcp_sa_mail: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
-    gcp_sa_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
+    # gcp_auth_kind: "{{ molecule_yml.driver.auth_kind | default(omit, true) }}"
+    # gcp_network: "{{ molecule_yml.driver.network_name }}"
+    # gcp_subnetwork: "{{ molecule_yml.driver.subnetwork_name }}"
+    # gcp_vpc_host_project: "{{ molecule_yml.driver.vpc_host_project }}"
+    # gcp_project: "{{  molecule_yml.driver.project_id }}"
+    # gcp_region: "{{ molecule_yml.driver.region }}"
+    # gcp_zone: "{{ molecule_yml.driver.zone }}"
+    # gcp_scopes: "{{ molecule_yml.driver.scopes | default(['https://www.googleapis.com/auth/compute'], True) }}"
+    # gcp_sa_mail: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
+    # gcp_sa_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
 
   pre_tasks:
+    - name: Make sure if linux or windows either specified
+      assert:
+        that:
+          - molecule_yml.driver.instance_os_type == "linux" or
+            molecule_yml.driver.instance_os_type == "windows"
+        fail_msg: "instance_os_type is possible only to specify linux or windows either"
+
     - name: get network info
       google.cloud.gcp_compute_network_info:
         filters:
         - name = "{{ molecule_yml.driver.network_name }}"
-        project: "{{ gcp_vpc_host_project | default( gcp_project ) }}"
-        service_account_email: "{{ gcp_sa_mail }}"
-        service_account_file: "{{ gcp_sa_file }}"
-        auth_kind: "{{ gcp_auth_kind }}"
+        project: "{{ molecule_yml.driver.vpc_host_project | default( molecule_yml.driver.project_id ) }}"
+        service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
+        service_account_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
+        auth_kind: "{{ molecule_yml.driver.auth_kind | default(omit, true) }}"
       register: my_network
       when: molecule_yml.driver.network_name
 
@@ -38,20 +42,15 @@
       google.cloud.gcp_compute_subnetwork_info:
         filters:
         - name = "{{ molecule_yml.driver.subnetwork_name }}"
-        project: "{{ gcp_vpc_host_project | default( gcp_project ) }}"
-        region: "{{ gcp_region }}"
-        service_account_email: "{{ gcp_sa_mail }}"
-        service_account_file: "{{ gcp_sa_file }}"
-        auth_kind: "{{ gcp_auth_kind }}"
+        project: "{{ molecule_yml.driver.vpc_host_project | default( molecule_yml.driver.project_id ) }}"
+        region: "{{ molecule_yml.driver.region }}"
+        service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
+        service_account_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
+        auth_kind: "{{ molecule_yml.driver.auth_kind | default(omit, true) }}"
       register: my_subnetwork
       when: molecule_yml.driver.subnetwork_name
 
   tasks:
-    - name: create keypair
-      openssh_keypair:
-        comment: "{{ ansible_user }}@example.com"
-        path: "{{ ssh_identity_file }}"
-      register: keypair
 
     - name: set external access config
       set_fact:
@@ -61,53 +60,15 @@
               type: "ONE_TO_NAT"       
       when: molecule_yml.driver.external_access
 
-    - name: create molecule instance(s)
-      google.cloud.gcp_compute_instance:
-          state: present
-          name: "{{ item.name }}"
-          machine_type: "{{ item.machine_type }}"
-          metadata: 
-            ssh-keys: "{{ ansible_user }}:{{ keypair.public_key }}}"
-          disks:
-            - auto_delete: true
-              boot: true
-              initialize_params: 
-                disk_size_gb: "{{ item.disk_size_gb | default(omit) }}"
-                source_image: "{{ item.disk_image }}"
-                source_image_encryption_key:
-                  raw_key: "{{ item.disk_image_encryption_key | default(omit) }}"
-          network_interfaces: "{{ [ { 'network': my_network.resources.0 | default(omit), 'subnetwork': my_subnetwork.resources.0 | default(omit) } | combine(external_access_config) ] }}"
-          zone: "{{ gcp_zone }}"
-          project: "{{ gcp_project }}"
-          scopes: "{{ gcp_scopes }}"
-          service_account_email: "{{ gcp_sa_mail }}"
-          service_account_file: "{{ gcp_sa_file }}"
-          auth_kind: "{{ gcp_auth_kind }}"
-      register: async_results
-      loop: "{{ molecule_yml.platforms }}"
-      async: 7200
-      poll: 0
+    - name: Include create_linux_instance tasks
+      include_tasks: tasks/create_linux_instance.yml
+      when:
+        - molecule_yml.driver.instance_os_type == "linux"
 
-    - name: Wait for instance(s) creation to complete
-      async_status:
-        jid: "{{ item.ansible_job_id }}"
-      loop: "{{ async_results.results }}"
-      register: server
-      until: server.finished
-      retries: 300
-      delay: 10
-      notify:
-        - "Populate instance config dict"
-        - "Convert instance config dict to a list"
-        - "Dump instance config"
-
-    - name: Wait for SSH
-      wait_for:
-        port: "{{ ansible_port }}"
-        host: "{{ item.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else item.networkInterfaces.0.networkIP }}"
-        search_regex: SSH
-        delay: 10
-      loop: "{{ server.results }}"
+    - name: Include create_windows_instance tasks
+      include_tasks: tasks/create_windows_instance.yml
+      when:
+        - molecule_yml.driver.instance_os_type == "windows"
 
   handlers:
     - name: Import main handler tasks

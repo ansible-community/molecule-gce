@@ -1,14 +1,15 @@
 ---
 {% raw -%}
-gcp_auth_kind: "{{ lookup('env', 'GCP_AUTH_KIND') }}"
-gcp_network: null
-gcp_subnetwork: null
-gcp_vpc_host_project: null
-gcp_project: null
-gcp_region: null
-gcp_zone: null
-gcp_scopes: "[ {{ lookup('env', 'GCP_SCOPES') }} ]"
-gce_external_access: true
-gcp_sa_mail: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_EMAIL') }}"
-gcp_sa_file: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_FILE') }}"
+molecule_yml.driver.auth_kind: "{{ lookup('env', 'GCP_AUTH_KIND') }}"
+molecule_yml.driver.service_account_email: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_EMAIL') }}"
+molecule_yml.driver.service_account_file: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT_FILE') }}"
+molecule_yml.driver.network_name: null
+molecule_yml.driver.subnetwork_name: null
+molecule_yml.driver.vpc_host_project: null
+molecule_yml.driver.project_id: null
+molecule_yml.driver.region: null
+molecule_yml.driver.zone: null
+molecule_yml.driver.scopes: "[ {{ lookup('env', 'GCP_SCOPES') }} ]"
+molecule_yml.driver.external_access: true
+molecule_yml.driver.instance_os_type: "Linux"
 {%- endraw %}
