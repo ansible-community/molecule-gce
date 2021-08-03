@@ -50,11 +50,14 @@
 - name: Prepare Windows User
   command: windows_auth -instance {{ item.name }} -zone {{ item.zone }} -project {{ molecule_yml.driver.project_id }} -user molecule_usr
   loop: "{{ server.results }}"
+  changed_when: 
+  - password.rc == 0 
+  - password.stdout
   register: password
 
 - name: Add password for instances in server list
   set_fact:
-     win_instances: "{{ item[0] | combine( password: item[1] ) }}"
+     win_instances: "{{ item[0] | combine( password: item[1].stdout ) }}"
   loop: "{{ (server.results | zip(password)) | list }}"
   register: win_instances
 
