@@ -20,6 +20,13 @@
     # gcp_sa_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
 
   pre_tasks:
+    - name: Make sure if GCP specific parameters are set
+      assert:
+        that:
+          - molecule_yml.driver.zone|length > 0
+          - molecule_yml.driver.region|length > 0
+        fail_msg: "zone and region must not be null or empty"
+
     - name: Make sure if linux or windows either specified
       assert:
         that:

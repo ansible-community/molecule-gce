@@ -5,20 +5,20 @@
     instance_conf_dict: {
       'instance': "{{ instance_info.name }}",
       'address': "{{ instance_info.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else instance_info.networkInterfaces.0.networkIP }}",
-      'user': "{{ ansible_user }}",
-      'port': "{{ ansible_port }}",
+      'user': "{{ lookup('env','USER') }}",
+      'port': "22",
       'identity_file': "{{ ssh_identity_file }}", }
   loop: "{{ server.results }}"
   loop_control:
       loop_var: instance_info  
-  register: instance_config_dict_lin
+  register: instance_conf_dict
 
 - name: Populate instance config dict Windows
   set_fact:
     instance_conf_dict: {
       'instance': "{{ instance_info.name }}",
       'address': "{{ instance_info.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else instance_info.networkInterfaces.0.networkIP }}",
-      'user': molecule_usr",
+      'user': "molecule_usr",
       'password': "{{ instance_info.password }}",
       'port': "{{ instance_info.winrm_port | default(5986) }}",
       'winrm_transport': "{{ molecule_yml.driver.winrm_transport | default('ntlm') }}",
@@ -26,7 +26,7 @@
   loop: "{{ win_instances }}"
   loop_control:
       loop_var: instance_info  
-  register: instance_config_dict_win
+  register: instance_conf_dict
 
 
 - name: Wipe out instance config
@@ -35,7 +35,7 @@
 
 - name: Convert instance config dict to a list
   set_fact:
-    instance_conf: "{{ instance_config_dict_lin.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
+    instance_conf: "{{ instance_conf_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
 
 - name: Dump instance config
   copy:

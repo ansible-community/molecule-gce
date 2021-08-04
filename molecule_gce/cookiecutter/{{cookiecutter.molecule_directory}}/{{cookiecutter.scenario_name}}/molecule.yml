@@ -16,7 +16,6 @@ driver:
   zone: null # example: us-west1-b, will default to your project default zone
   external_access: false #chose whether to create a public IP for the VM or not - default is private IP only
   instance_os_type: linux #will be considered linux by default, but can be explicitely set to windows
-  instance_username: molecule
 platforms:
   - name: instance # is an instance name
     machine_type: n1-standard-1 #define your machine type
