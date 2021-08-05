@@ -5,8 +5,6 @@
       state: present
       name: "{{ item.name }}"
       machine_type: "{{ item.machine_type }}"
-      metadata: 
-        ssh-keys: "{{ ansible_user }}:{{ keypair.public_kfey }}}"
       disks:
         - auto_delete: true
           boot: true
@@ -57,10 +55,10 @@
 
 - name: Add password for instances in server list
   set_fact:
-     win_instances: "{{ item[0] | combine( password: item[1].stdout ) }}"
-  loop: "{{ (server.results | zip(password)) | list }}"
-  register: win_instances
-
+    win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout)] }}"
+  loop: "{{ server.results | zip(password) | list }}"
+  
 - name: Debug win_instances 
-  msg: "{{ win_instance }}"
+  debug:
+    msg: "{{ win_instances }}"
 {%- endraw %}
