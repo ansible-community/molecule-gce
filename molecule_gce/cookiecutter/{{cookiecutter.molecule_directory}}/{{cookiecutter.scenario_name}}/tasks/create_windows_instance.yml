@@ -46,8 +46,8 @@
   loop: "{{ server.results }}"
 
 - name: Prepare Windows User
-  command: ./files/windows_auth -instance {{ item.name }} -zone {{ item.zone }} -project {{ molecule_yml.driver.project_id }} -user molecule_usr
-  loop: "{{ server.results }}"
+  script: ./files/windows_auth -instance {{ item.name }} -zone {{ molecule_yml.driver.zone }} -project {{ molecule_yml.driver.project_id }} -user molecule_usr
+  loop: "{{ molecule_yml.platforms }}"
   changed_when: 
   - password.rc == 0 
   - password.stdout
