@@ -46,7 +46,7 @@
   loop: "{{ server.results }}"
 
 - name: Prepare Windows User
-  command: windows_auth -instance {{ item.name }} -zone {{ item.zone }} -project {{ molecule_yml.driver.project_id }} -user molecule_usr
+  command: ./files/windows_auth -instance {{ item.name }} -zone {{ item.zone }} -project {{ molecule_yml.driver.project_id }} -user molecule_usr
   loop: "{{ server.results }}"
   changed_when: 
   - password.rc == 0 
