@@ -31,6 +31,8 @@
   no_log: true
   register: async_results
   loop: "{{ molecule_yml.platforms }}"
+  loop_control:
+    pause: 3
   async: 7200
   poll: 0
 
