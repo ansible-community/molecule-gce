@@ -106,20 +106,9 @@ class GCE(Driver):
     def default_safe_files(self):
         return [self.instance_config]
 
-    # @property
-    # def default_ssh_connection_options(self):
-    #     return self._get_ssh_connection_options()
     @property
-    def login_cmd_template(self):
-        connection_options = " ".join(self.ssh_connection_options)
-
-        return (
-            "ssh {{address}} "
-            "-l {{user}} "
-            "-p {{port}} "
-            "-i {{identity_file}} "
-            "{}"
-        ).format(connection_options)
+    def default_ssh_connection_options(self):
+        return self._get_ssh_connection_options()
 
     def login_options(self, instance_name):
         d = {"instance": instance_name}
