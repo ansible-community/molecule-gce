@@ -55,8 +55,8 @@
 
 - name: Add password for instances in server list
   set_fact:
-    win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout)] }}"
-  loop: "{{ server.results | zip(password) | list }}"
+    win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
+  loop: "{{ server.results | zip(password.results) | list }}"
   
 - name: Debug win_instances 
   debug:

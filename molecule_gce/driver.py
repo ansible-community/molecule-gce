@@ -136,7 +136,7 @@ class GCE(Driver):
                         "ansible_host": d["address"],
                         "ansible_password": d["password"],
                         "ansible_port": d["port"],
-                        "ansible_connection": d["connection"],
+                        "connection": d["connection"],
                         "ansible_winrm_transport": d["winrm_transport"],
                         "ansible_winrm_server_cert_validation": d["winrm_server_cert_validation"]
                     }
