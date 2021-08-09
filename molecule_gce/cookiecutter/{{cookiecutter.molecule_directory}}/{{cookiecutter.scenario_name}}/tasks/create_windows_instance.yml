@@ -57,8 +57,7 @@
   set_fact:
     win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
   loop: "{{ server.results | zip(password.results) | list }}"
-  
-- name: Debug win_instances 
-  debug:
-    msg: "{{ win_instances }}"
+  no_log: true
+
+
 {%- endraw %}

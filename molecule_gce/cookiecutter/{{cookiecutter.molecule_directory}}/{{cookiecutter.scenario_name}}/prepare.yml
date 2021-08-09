@@ -1,12 +1,5 @@
 ---
 {% raw -%}
-- name: Prepare
-  hosts: all
-  gather_facts: false
-  tasks:
-    - name: Make sure python3 is installed
-      package:
-        name: python3
-        state: present
-      become: true
+- name: Wait 600 seconds for target connection to become reachable/usable
+  wait_for_connection:
 {%- endraw %}

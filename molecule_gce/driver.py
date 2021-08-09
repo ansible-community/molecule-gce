@@ -145,7 +145,9 @@ class GCE(Driver):
                         "ansible_port": d["port"],
                         "ansible_connection": "winrm",
                         "ansible_winrm_transport": d["winrm_transport"],
-                        "ansible_winrm_server_cert_validation": d["winrm_server_cert_validation"]
+                        "ansible_winrm_server_cert_validation": d["winrm_server_cert_validation"],
+                        "ansible_become_method": "runas",
+
                     }
         except StopIteration:
             return {}
