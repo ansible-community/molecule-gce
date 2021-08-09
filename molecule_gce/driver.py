@@ -133,7 +133,7 @@ class GCE(Driver):
                         "ansible_host": d["address"],
                         "ansible_port": d["port"],
                         "ansible_private_key_file": d["identity_file"],
-                        "connection": "ssh",
+                        "ansible_connection": "ssh",
                         "ansible_ssh_common_args": " ".join(self.ssh_connection_options),
                     }
 
@@ -143,7 +143,7 @@ class GCE(Driver):
                         "ansible_host": d["address"],
                         "ansible_password": d["password"],
                         "ansible_port": d["port"],
-                        "connection": "winrm",
+                        "ansible_connection": "winrm",
                         "ansible_winrm_transport": d["winrm_transport"],
                         "ansible_winrm_server_cert_validation": d["winrm_server_cert_validation"]
                     }
