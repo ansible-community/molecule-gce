@@ -111,11 +111,15 @@ class GCE(Driver):
     #     return self._get_ssh_connection_options()
     @property
     def login_cmd_template(self):
+        connection_options = " ".join(self.ssh_connection_options)
+
         return (
-            "ssh {address} -l {user} -p {port} -i {identity_file}"
-        )
-
-
+            "ssh {{address}} "
+            "-l {{user}} "
+            "-p {{port}} "
+            "-i {{identity_file}} "
+            "{}"
+        ).format(connection_options)
 
     def login_options(self, instance_name):
         d = {"instance": instance_name}
