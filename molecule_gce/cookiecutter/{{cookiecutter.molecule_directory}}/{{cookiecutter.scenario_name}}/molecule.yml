@@ -13,15 +13,16 @@ driver:
   scopes: 
     - "https://www.googleapis.com/auth/compute" #example https://www.googleapis.com/auth/compute, will default to env GCP_SCOPES
   region: null # example: us-central1, will default to your project default region
-  zone: null # example: us-west1-b, will default to your project default zone
   external_access: false #chose whether to create a public IP for the VM or not - default is private IP only
   instance_os_type: linux #will be considered linux by default, but can be explicitely set to windows
 platforms:
   - name: instance # is an instance name
     machine_type: n1-standard-1 #define your machine type
-    disk_size_gb: 20 #set as needed
-    disk_image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image - works only with Linux images
-    disk_image_encryption_key: null #only set it if you encrypt your images with your own encryption key
+    zone: null # example: us-west1-b, will default to your project default zone
+    disk_size_gb: null #set if needed
+    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image - works only with Linux images
+    image_encryption_key: null #only set it if you encrypt your images with your own encryption key
+
 provisioner:
   name: {{ cookiecutter.provisioner_name }}
 verifier:
@@ -31,3 +32,10 @@ lint: |
   yamllint .
   ansible-lint
   flake8
+
+
+molecule_yml.platforms:
+name
+zone
+machine_type
+image

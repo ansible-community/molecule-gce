@@ -8,7 +8,6 @@ molecule_yml.driver.subnetwork_name: null
 molecule_yml.driver.vpc_host_project: null
 molecule_yml.driver.project_id: null
 molecule_yml.driver.region: null
-molecule_yml.driver.zone: null
 molecule_yml.driver.scopes: "[ {{ lookup('env', 'GCP_SCOPES') }} ]"
 molecule_yml.driver.external_access: true
 molecule_yml.driver.instance_os_type: "Linux"

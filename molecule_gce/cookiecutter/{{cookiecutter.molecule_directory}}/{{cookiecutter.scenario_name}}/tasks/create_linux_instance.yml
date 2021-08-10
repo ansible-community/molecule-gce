@@ -18,11 +18,11 @@
           boot: true
           initialize_params: 
             disk_size_gb: "{{ item.disk_size_gb | default(omit) }}"
-            source_image: "{{ item.disk_image }}"
+            source_image: "{{ item.image }}"
             source_image_encryption_key:
-              raw_key: "{{ item.disk_image_encryption_key | default(omit) }}"
+              raw_key: "{{ item.image_encryption_key | default(omit) }}"
       network_interfaces: "{{ [ { 'network': my_network.resources.0 | default(omit), 'subnetwork': my_subnetwork.resources.0 | default(omit) } | combine(external_access_config) ] }}"
-      zone: "{{ molecule_yml.driver.zone }}"
+      zone: "{{ item.zone }}"
       project: "{{ molecule_yml.driver.project_id }}"
       scopes: "{{ molecule_yml.driver.scopes | default(['https://www.googleapis.com/auth/compute'], True) }}"
       service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
