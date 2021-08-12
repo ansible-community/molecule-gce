@@ -22,7 +22,6 @@ platforms:
     disk_size_gb: null #set if needed
     image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image - works only with Linux images
     image_encryption_key: null #only set it if you encrypt your images with your own encryption key
-
 provisioner:
   name: {{ cookiecutter.provisioner_name }}
 verifier:
