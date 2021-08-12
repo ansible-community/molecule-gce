@@ -67,8 +67,8 @@ A simple config is:
      - name: ubuntu-instance-created-by-molecule # REQUIRED: this will be your VM name
        zone: us-central1-a # REQUIRED: set it to the zone you want that instance to be in
        machine_type: n1-standard-1 #defines your machine type
-       image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. The expected format of this string is 'projects/<project>/global/images/family/<family-name>
-' (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
+       image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. The expected format of this string is projects/<project>/global/images/family/<family-name>
+ (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
      - name: debian-instance-created-by-molecule
        zone: us-central1-a
        machine_type: n1-standard-1
