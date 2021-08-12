@@ -7,7 +7,7 @@
   no_log: "{{ molecule_no_log }}"
   vars:
     ssh_identity_file: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
-    external_access_config: []
+    #external_access_config: []
     gcp_project_id: "{{ molecule_yml.driver.project_id | default(lookup('env', 'GCE_PROJECT_ID')) }}"
 
   tasks:
