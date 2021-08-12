@@ -6,9 +6,9 @@ molecule_yml.driver.service_account_file: "{{ lookup('env', 'GCP_SERVICE_ACCOUNT
 molecule_yml.driver.network_name: null
 molecule_yml.driver.subnetwork_name: null
 molecule_yml.driver.vpc_host_project: null
-molecule_yml.driver.project_id: null
+molecule_yml.driver.project_id: "{{ lookup('env', 'GCE_PROJECT_ID') }}" #Using GCE_* name for backward compatibility reasons
 molecule_yml.driver.region: null
 molecule_yml.driver.scopes: "[ {{ lookup('env', 'GCP_SCOPES') }} ]"
 molecule_yml.driver.external_access: true
-molecule_yml.driver.instance_os_type: "Linux"
+molecule_yml.driver.instance_os_type: linux
 {%- endraw %}

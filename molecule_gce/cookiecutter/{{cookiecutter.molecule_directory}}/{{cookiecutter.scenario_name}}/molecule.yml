@@ -3,7 +3,7 @@ dependency:
   name: {{ cookiecutter.dependency_name }}
 driver:
   name: {{ cookiecutter.driver_name }}
-  project_id: change to id of the project #if set to null, will default to env GCE_PROJECT_ID
+  project_id: change-to-id-of-the-gcp-project #if not set, will default to env GCE_PROJECT_ID
   network_name: null #specify if other than default
   subnetwork_name: null #specify if other than default
   vpc_host_project: null #if you use a shared vpc, set here the vpc host project. In such case, your gcp user needs the necessary permissions in the host project, see https://cloud.google.com/vpc/docs/shared-vpc#iam_in_shared_vpc
@@ -11,8 +11,8 @@ driver:
   service_account_email: null #set to an email associated with the project - if set to null, will default to GCP_SERVICE_ACCOUNT_EMAIL. Should not be set if using auth_kind serviceaccount.
   service_account_file: null #set to the path to the JSON credentials file - if set to null, will default to env GCP_SERVICE_ACCOUNT_FILE
   scopes: 
-    - "https://www.googleapis.com/auth/compute" #example https://www.googleapis.com/auth/compute, will default to env GCP_SCOPES
-  region: null # example: us-central1, will default to your project default region
+    - "https://www.googleapis.com/auth/compute" #will default to env GCP_SCOPES, https://www.googleapis.com/auth/compute is the minimum required scope.
+  region: null #REQUIRED. example: us-central1
   external_access: false #chose whether to create a public IP for the VM or not - default is private IP only
   instance_os_type: linux #will be considered linux by default, but can be explicitely set to windows
 platforms:
@@ -32,10 +32,3 @@ lint: |
   yamllint .
   ansible-lint
   flake8
-
-
-molecule_yml.platforms:
-name
-zone
-machine_type
-image

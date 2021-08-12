@@ -13,8 +13,8 @@
     - name: Make sure if linux or windows either specified
       assert:
         that:
-          - molecule_yml.driver.instance_os_type == "linux" or
-            molecule_yml.driver.instance_os_type == "windows"
+          - molecule_yml.driver.instance_os_type | lower == "linux" or
+            molecule_yml.driver.instance_os_type | lower == "windows"
         fail_msg: "instance_os_type is possible only to specify linux or windows either"
 
     - name: get network info
@@ -53,12 +53,12 @@
     - name: Include create_linux_instance tasks
       include_tasks: tasks/create_linux_instance.yml
       when:
-        - molecule_yml.driver.instance_os_type == "linux"
+        - molecule_yml.driver.instance_os_type  | lower == "linux"
 
     - name: Include create_windows_instance tasks
       include_tasks: tasks/create_windows_instance.yml
       when:
-        - molecule_yml.driver.instance_os_type == "windows"
+        - molecule_yml.driver.instance_os_type  | lower == "windows"
 
   handlers:
     - name: Import main handler tasks
