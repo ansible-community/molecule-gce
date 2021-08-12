@@ -30,8 +30,6 @@ provisioning test resources.
 
 Please note that this driver is currently in its early stage of development.
 
-.. _get-involved:
-
 Installation and Usage
 ======================
 
@@ -81,6 +79,7 @@ A simple config is:
    verifier:
      name: ansible
 
+.. _get-involved:
 
 Get Involved
 ============
