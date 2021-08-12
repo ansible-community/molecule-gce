@@ -33,17 +33,16 @@ Please note that this driver is currently in its early stage of development.
 Installation and Usage
 ======================
 
-Install molecule-gce and pre-requisites:
+Install molecule-gce and pre-requisites
    pip install molecule-gce requests google-auth
 
 If you plan on testing Windows instances you also need pywinrm
    pip install pywinrm
 
-Create a new role with molecule using the vmware driver:
+Create a new role with molecule using the vmware driver
    molecule init role <role_name> -d gce
 
-Configure `<role_name>/molecule/default/molecule.yml` with required parameters :
-A simple config is:
+Configure `<role_name>/molecule/default/molecule.yml` with required parameters
 
 .. code-block:: yaml
    dependency:
