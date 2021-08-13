@@ -42,9 +42,9 @@
     - name: set external access config
       set_fact:
         external_access_config:
-          - access_configs: 
+          - access_configs:
             - name: "External NAT"
-              type: "ONE_TO_NAT"       
+              type: "ONE_TO_NAT"
       when: molecule_yml.driver.external_access
 
     - name: Include create_linux_instance tasks

@@ -56,7 +56,7 @@ driver:
   auth_kind: serviceaccount #set to machineaccount or serviceaccount or application - if set to null will read env GCP_AUTH_KIND
   service_account_email: null #set to an email associated with the project - if set to null, will default to GCP_SERVICE_ACCOUNT_EMAIL. Should not be set if using auth_kind serviceaccount.
   service_account_file: /path/to/gce-sa.json #set to the path to the JSON credentials file - if set to null, will default to env GCP_SERVICE_ACCOUNT_FILE
-  scopes: 
+  scopes:
     - "https://www.googleapis.com/auth/compute" #will default to env GCP_SCOPES, https://www.googleapis.com/auth/compute is the minimum required scope.
   external_access: false #chose whether to create a public IP for the VM or not - default is private IP only
   instance_os_type: linux #Either windows or linux. Will be considered linux by default. You can NOT mix Windows and Linux VMs in the same scenario.
@@ -64,14 +64,14 @@ platforms:
   - name: ubuntu-instance-created-by-molecule # REQUIRED: this will be your VM name
     zone: us-central1-a #Example: us-west1-b. Will default to zone b of region defined in driver (some regions do not have a zone-a)
     machine_type: n1-standard-1 #If not specified, will default to n1-standard-1
-    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. 
-      #The expected format of this string is projects/<project>/global/images/family/<family-name> 
+    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'.
+      #The expected format of this string is projects/<project>/global/images/family/<family-name>
       #(see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
       # Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
   - name: debian-instance-created-by-molecule
     zone: us-central1-a
     machine_type: n1-standard-2
-    image: 'projects/debian-cloud/global/images/family/debian-10' 
+    image: 'projects/debian-cloud/global/images/family/debian-10'
   - name: n1-standard1-debian10-in-region-b
 
 

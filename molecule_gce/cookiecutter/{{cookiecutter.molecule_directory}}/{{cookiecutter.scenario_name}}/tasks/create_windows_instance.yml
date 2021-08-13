@@ -8,7 +8,7 @@
       disks:
         - auto_delete: true
           boot: true
-          initialize_params: 
+          initialize_params:
             disk_size_gb: "{{ item.disk_size_gb | default(omit) }}"
             source_image: "{{ item.image | default('projects/windows-cloud/global/images/family/windows-2019')}}"
             source_image_encryption_key:
@@ -48,8 +48,8 @@
 - name: Prepare Windows User
   script: ./files/windows_auth -instance {{ item.name }} -zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} -project {{ gcp_project_id }} -user molecule_usr
   loop: "{{ molecule_yml.platforms }}"
-  changed_when: 
-  - password.rc == 0 
+  changed_when:
+  - password.rc == 0
   - password.stdout
   register: password
   retries: 10
@@ -60,6 +60,4 @@
     win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
   loop: "{{ server.results | zip(password.results) | list }}"
   no_log: true
-
-
 {%- endraw %}

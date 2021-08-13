@@ -17,4 +17,3 @@ $ pip install 'molecule_gce'
 
   [Virtual environment]: https://virtualenv.pypa.io/en/latest/
   ['--user' flag]: https://packaging.python.org/tutorials/installing-packages/#installing-to-the-user-site
-  

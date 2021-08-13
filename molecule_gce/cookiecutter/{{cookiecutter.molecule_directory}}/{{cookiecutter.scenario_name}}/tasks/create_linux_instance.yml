@@ -11,12 +11,12 @@
       state: present
       name: "{{ item.name }}"
       machine_type: "{{ item.machine_type | default('n1-standard-1') }}"
-      metadata: 
+      metadata:
         ssh-keys: "{{ lookup('env','USER') }}:{{ keypair.public_key }}}"
       disks:
         - auto_delete: true
           boot: true
-          initialize_params: 
+          initialize_params:
             disk_size_gb: "{{ item.disk_size_gb | default(omit) }}"
             source_image: "{{ item.image | default('projects/debian-cloud/global/images/family/debian-10') }}"
             source_image_encryption_key:

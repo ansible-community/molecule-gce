@@ -7,7 +7,7 @@
       'address': "{{ instance_info.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else instance_info.networkInterfaces.0.networkIP }}",
       'user': "{{ lookup('env','USER') }}",
       'port': "22",
-      'identity_file': "{{ ssh_identity_file }}", 
+      'identity_file': "{{ ssh_identity_file }}",
       'instance_os_type': "{{ molecule_yml.driver.instance_os_type }}"
     }
   loop: "{{ server.results }}"
