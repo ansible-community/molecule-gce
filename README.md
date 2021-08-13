@@ -21,17 +21,22 @@ Please note that this driver is currently in its early stage of development.
 
 # Installation and Usage
 
-Install molecule-gce and pre-requisites:
+Install pre-requisites :
+```
+pip install requests google-auth jinja2-ansible-filters
+```
 
+Install molecule-gce :
 ```
-pip install molecule-gce requests google-auth
+pip install molecule-gce
 ```
+
 If you plan on testing Windows instances you also need pywinrm:
 ```
 pip install pywinrm
 ```
-Create a new role with molecule using the vmware driver:
 
+Create a new role with molecule using the vmware driver:
 ```
 molecule init role <role_name> -d gce
 ```
