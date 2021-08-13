@@ -17,17 +17,15 @@ driver:
   instance_os_type: linux #will be considered linux by default, but can be explicitely set to windows
 platforms:
   - name: instance #REQUIRED is an instance name
-    machine_type: n1-standard-1 #REQUIRED : define your machine type
-    zone: null # example: us-west1-b, will default to zone b of region defined in driver (some regions do not have a zone-a)
-    disk_size_gb: null #set if needed
-    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image - works only with Linux images
+    machine_type: null #If not specified, will default to n1-standard-1
+    zone: null #Example: us-west1-b. Will default to zone b of region defined in driver (some regions do not have a zone-a)
+    disk_size_gb: null #Set only if needed
+    image: 'projects/debian-cloud/global/images/family/debian-10' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. 
+      #The expected format of this string is projects/<project>/global/images/family/<family-name> 
+      #(see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
+      # Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
     image_encryption_key: null #only set it if you encrypt your images with your own encryption key
 provisioner:
   name: {{ cookiecutter.provisioner_name }}
 verifier:
   name: {{ cookiecutter.verifier_name }}
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
-  flake8

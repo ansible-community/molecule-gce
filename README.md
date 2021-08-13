@@ -49,7 +49,7 @@ dependency:
 driver:
   name: gce
   project_id: my-google-cloud-platform-project-id #if not set, will default to env GCE_PROJECT_ID
-  region: us-central1 #REQUIRED     
+  region: us-central1 #REQUIRED
   network_name: my-vpc #specify if other than default
   subnetwork_name: my-subnet #specify if other than default
   vpc_host_project: null #if you use a shared vpc, set here the vpc host project. In that case, your GCP user needs the necessary permissions in the host project, see https://cloud.google.com/vpc/docs/shared-vpc#iam_in_shared_vpc
@@ -59,18 +59,21 @@ driver:
   scopes: 
     - "https://www.googleapis.com/auth/compute" #will default to env GCP_SCOPES, https://www.googleapis.com/auth/compute is the minimum required scope.
   external_access: false #chose whether to create a public IP for the VM or not - default is private IP only
-  instance_os_type: linux #will be considered linux by default, but can be explicitely set to windows. You can not mix Windows and Linux VMs in the same scenario.
-   
+  instance_os_type: linux #Either windows or linux. Will be considered linux by default. You can NOT mix Windows and Linux VMs in the same scenario.
 platforms:
   - name: ubuntu-instance-created-by-molecule # REQUIRED: this will be your VM name
-    zone: us-central1-a # REQUIRED: set it to the zone you want that instance to be in
-    machine_type: n1-standard-1 #defines your machine type
-    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. The expected format of this string is projects/<project>/global/images/family/<family-name>
- (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
+    zone: us-central1-a #Example: us-west1-b. Will default to zone b of region defined in driver (some regions do not have a zone-a)
+    machine_type: n1-standard-1 #If not specified, will default to n1-standard-1
+    image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts' #Points to an image, you can get a list of available images with command 'gcloud compute images list'. 
+      #The expected format of this string is projects/<project>/global/images/family/<family-name> 
+      #(see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
+      # Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
   - name: debian-instance-created-by-molecule
     zone: us-central1-a
-    machine_type: n1-standard-1
-    image: 'projects/debian-cloud/global/images/family/debian-10'
+    machine_type: n1-standard-2
+    image: 'projects/debian-cloud/global/images/family/debian-10' 
+  - name: n1-standard1-debian10-in-region-b
+
 
 provisioner:
   name: ansible
