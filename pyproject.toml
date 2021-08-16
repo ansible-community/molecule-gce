@@ -4,5 +4,8 @@ requires = [
   "setuptools_scm >= 1.15.0",
   "setuptools_scm_git_archive >= 1.0",
   "wheel",
+  "google-api-python-client",
+  "oauth2client",
+  "pycryptodome"
 ]
 build-backend = "setuptools.build_meta"
