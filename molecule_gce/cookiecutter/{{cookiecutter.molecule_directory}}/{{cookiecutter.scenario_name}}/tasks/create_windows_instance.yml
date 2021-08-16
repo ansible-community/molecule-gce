@@ -46,7 +46,9 @@
   loop: "{{ server.results }}"
 
 - name: Prepare Windows User
-  script: ./files/windows_auth -instance {{ item.name }} -zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} -project {{ gcp_project_id }} -user molecule_usr
+  script: ./files/windows_auth.py --instance {{ item.name }} --zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} --project {{ gcp_project_id }} --username molecule_usr
+  args:
+    executable: python3
   loop: "{{ molecule_yml.platforms }}"
   changed_when:
   - password.rc == 0

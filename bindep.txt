@@ -8,3 +8,6 @@ pkg-config [platform:dpkg]
 requests >= 2.18.4
 google-auth >= 1.3.0
 jinja2-ansible-filters
+google-api-python-client
+oauth2client
+pycryptodome
