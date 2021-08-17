@@ -1,5 +1,4 @@
 ---
-{% raw -%}
 - name: Destroy
   hosts: localhost
   connection: local
@@ -37,4 +36,3 @@
   handlers:
     - name: Import main handler tasks
       import_tasks: handlers/main.yml
-{%- endraw %}

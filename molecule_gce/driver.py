@@ -119,14 +119,32 @@ class GCE(Driver):
         try:
             d = self._get_instance_config(instance_name)
 
-            return {
-                "ansible_user": d["user"],
-                "ansible_host": d["address"],
-                "ansible_port": d["port"],
-                "ansible_private_key_file": d["identity_file"],
-                "connection": "ssh",
-                "ansible_ssh_common_args": " ".join(self.ssh_connection_options),
-            }
+            if "instance_os_type" in d:
+                if d["instance_os_type"] == "linux":
+                    return {
+                        "ansible_user": d["user"],
+                        "ansible_host": d["address"],
+                        "ansible_port": d["port"],
+                        "ansible_private_key_file": d["identity_file"],
+                        "ansible_connection": "ssh",
+                        "ansible_ssh_common_args": " ".join(
+                            self.ssh_connection_options
+                        ),
+                    }
+
+                if d["instance_os_type"] == "windows":
+                    return {
+                        "ansible_user": d["user"],
+                        "ansible_host": d["address"],
+                        "ansible_password": d["password"],
+                        "ansible_port": d["port"],
+                        "ansible_connection": "winrm",
+                        "ansible_winrm_transport": d["winrm_transport"],
+                        "ansible_winrm_server_cert_validation": d[
+                            "winrm_server_cert_validation"
+                        ],
+                        "ansible_become_method": "runas",
+                    }
         except StopIteration:
             return {}
         except IOError:

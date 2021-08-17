@@ -1,0 +1,5 @@
+# .ansible-lint
+exclude_paths:
+  - .cache/  # implicit unless exclude_paths is defined in config
+  - .github/
+  - molecule_gce/cookiecutter/{{cookiecutter.molecule_directory}}
