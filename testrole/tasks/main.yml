@@ -1,8 +1,0 @@
----
-# tasks file for testrole
-- name: Gathering facts
-  gather_facts:
-
-- name: Display something
-  debug:
-    msg: "This role ran correctly on {{ ansible_hostname }}, operating system {{ ansible_distribution }}"
