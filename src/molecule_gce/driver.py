@@ -170,6 +170,7 @@ class GCE(Driver):
         """
         return os.path.join(os.path.dirname(__file__), "cookiecutter")
 
+    @property
     def required_collections(self) -> Dict[str, str]:
         # https://galaxy.ansible.com/google/cloud
         return {"google.cloud": "1.0.2"}
