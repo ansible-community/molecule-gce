@@ -7,7 +7,6 @@
   no_log: "{{ molecule_no_log }}"
   vars:
     ssh_identity_file: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
-    #external_access_config: []
     gcp_project_id: "{{ molecule_yml.driver.project_id | default(lookup('env', 'GCE_PROJECT_ID')) }}"
 
   tasks:
@@ -21,7 +20,7 @@
     - name: get network info
       google.cloud.gcp_compute_network_info:
         filters:
-        - name = "{{ molecule_yml.driver.network_name | default('default') }}"
+          - name = "{{ molecule_yml.driver.network_name | default('default') }}"
         project: "{{ molecule_yml.driver.vpc_host_project | default(gcp_project_id) }}"
         service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
         service_account_file: "{{ molecule_yml.driver.service_account_file | default (omit, true) }}"
@@ -31,7 +30,7 @@
     - name: get subnetwork info
       google.cloud.gcp_compute_subnetwork_info:
         filters:
-        - name = "{{ molecule_yml.driver.subnetwork_name | default('default') }}"
+          - name = "{{ molecule_yml.driver.subnetwork_name | default('default') }}"
         project: "{{ molecule_yml.driver.vpc_host_project | default(gcp_project_id) }}"
         region: "{{ molecule_yml.driver.region }}"
         service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"
@@ -43,8 +42,8 @@
       set_fact:
         external_access_config:
           - access_configs:
-            - name: "External NAT"
-              type: "ONE_TO_NAT"
+              - name: "External NAT"
+                type: "ONE_TO_NAT"
       when: molecule_yml.driver.external_access
 
     - name: Include create_linux_instance tasks

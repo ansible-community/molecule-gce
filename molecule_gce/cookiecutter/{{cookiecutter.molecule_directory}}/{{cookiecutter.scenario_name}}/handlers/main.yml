@@ -12,7 +12,7 @@
     }
   loop: "{{ server.results }}"
   loop_control:
-      loop_var: instance_info
+    loop_var: instance_info
   no_log: true
   register: instance_conf_dict
 
@@ -30,7 +30,7 @@
     }
   loop: "{{ win_instances }}"
   loop_control:
-      loop_var: instance_info
+    loop_var: instance_info
   no_log: true
   register: instance_conf_dict
 
