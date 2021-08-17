@@ -17,6 +17,7 @@
 #  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 #  DEALINGS IN THE SOFTWARE.
+from typing import Dict
 import os
 from molecule import logger
 from molecule.api import Driver
@@ -168,3 +169,7 @@ class GCE(Driver):
         command in order to figure out where to load the templates from.
         """
         return os.path.join(os.path.dirname(__file__), "cookiecutter")
+
+    def required_collections(self) -> Dict[str, str]:
+        # https://galaxy.ansible.com/google/cloud
+        return {"google.cloud": "1.0.2"}
