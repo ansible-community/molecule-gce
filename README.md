@@ -33,10 +33,10 @@ pip install molecule-gce
 
 If you plan on testing Windows instances you also need pywinrm:
 ```
-pip install pywinrm
+pip install pywinrm google-api-python-client oauth2client pycryptodome
 ```
 
-Create a new role with molecule using the vmware driver:
+Create a new role with molecule using the GCE driver:
 ```
 molecule init role <role_name> -d gce
 ```
@@ -92,7 +92,7 @@ verifier:
 
 # License
 
-The [MIT](https://github.com/sky-joker/molecule-vmware/blob/master/LICENSE) License.
+The [MIT](https://github.com/ansible-community/molecule-gce/blob/main/LICENSE) License.
 
 The logo is licensed under the [Creative Commons NoDerivatives 4.0 License](https://creativecommons.org/licenses/by-nd/4.0/).
 
