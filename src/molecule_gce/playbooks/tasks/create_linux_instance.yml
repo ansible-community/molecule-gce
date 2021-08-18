@@ -1,5 +1,4 @@
 ---
-{% raw -%}
 - name: create ssh keypair
   openssh_keypair:
     comment: "{{ lookup('env','USER') }} user for Molecule"
@@ -55,4 +54,3 @@
     search_regex: SSH
     delay: 10
   loop: "{{ server.results }}"
-{%- endraw %}

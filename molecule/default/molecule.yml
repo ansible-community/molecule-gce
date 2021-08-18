@@ -1,8 +1,8 @@
 ---
 dependency:
-  name: {{ cookiecutter.dependency_name }}
+  name: galaxy
 driver:
-  name: {{ cookiecutter.driver_name }}
+  name: gce
   project_id: change-to-id-of-the-gcp-project #  if not set, will default to env GCE_PROJECT_ID
   network_name: null #  specify if other than default
   subnetwork_name: null #  specify if other than default
@@ -26,6 +26,6 @@ platforms:
       #  Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
     image_encryption_key: null #  only set it if you encrypt your images with your own encryption key
 provisioner:
-  name: {{ cookiecutter.provisioner_name }}
+  name: ansible
 verifier:
-  name: {{ cookiecutter.verifier_name }}
+  name: ansible
