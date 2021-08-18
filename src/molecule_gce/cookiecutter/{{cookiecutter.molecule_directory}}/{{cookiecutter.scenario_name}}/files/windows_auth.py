@@ -28,13 +28,13 @@ from Crypto.Util.number import long_to_bytes
 
 # Google API Client Library for Python:
 # https://developers.google.com/api-client-library/python/start/get_started
-from oauth2client.client import GoogleCredentials
+import google.auth
 from googleapiclient.discovery import build
 
 
 def GetCompute():
     """Get a compute object for communicating with the Compute Engine API."""
-    credentials = GoogleCredentials.get_application_default()
+    credentials, project = google.auth.default()
     compute = build("compute", "v1", credentials=credentials)
     return compute
 
@@ -204,12 +204,12 @@ def main():
     # Monitor changes from output to get the encrypted password as soon as it's generated, will wait for 30 seconds
     i = 0
     new_serial_port_output = serial_port_output
-    while i <= 30 and serial_port_output == new_serial_port_output:
+    while i <= 20 and serial_port_output == new_serial_port_output:
         new_serial_port_output = GetSerialPortFourOutput(
             compute, config_args.instance, config_args.zone, config_args.project
         )
         i += 1
-        time.sleep(1)
+        time.sleep(3)
 
     enc_password = GetEncryptedPasswordFromSerialPort(new_serial_port_output, modulus)
 
