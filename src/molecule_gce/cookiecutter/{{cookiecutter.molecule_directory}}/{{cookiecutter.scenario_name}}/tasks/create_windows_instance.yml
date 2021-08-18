@@ -49,6 +49,8 @@
   script: ./files/windows_auth.py --instance {{ item.name }} --zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} --project {{ gcp_project_id }} --username molecule_usr
   args:
     executable: python3
+  environment:
+    GOOGLE_APPLICATION_CREDENTIALS: "{{ molecule_yml.driver.service_account_file | default(lookup('env', 'GCP_SERVICE_ACCOUNT_FILE'), true) }}"
   loop: "{{ molecule_yml.platforms }}"
   changed_when:
     - password.rc == 0
