@@ -1,5 +1,4 @@
 ---
-{% raw -%}
 - name: create molecule Windows instance(s)
   google.cloud.gcp_compute_instance:
     state: present
@@ -64,4 +63,3 @@
     win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
   loop: "{{ server.results | zip(password.results) | list }}"
   no_log: true
-{%- endraw %}

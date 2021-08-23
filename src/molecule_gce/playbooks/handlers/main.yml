@@ -1,5 +1,4 @@
 ---
-{% raw -%}
 - name: Populate instance config dict Linux
   set_fact:
     instance_conf_dict: {
@@ -48,4 +47,3 @@
     content: "{{ instance_conf }}"
     dest: "{{ molecule_instance_config }}"
     mode: '0600'
-{%- endraw %}
