@@ -4,6 +4,8 @@
     state: present
     name: "{{ item.name }}"
     machine_type: "{{ item.machine_type | default('n1-standard-1') }}"
+    scheduling:
+      preemptible: "{{ item.preemptible | default(false) }}"
     disks:
       - auto_delete: true
         boot: true

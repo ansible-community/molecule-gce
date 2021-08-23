@@ -18,6 +18,7 @@ driver:
 platforms:
   - name: instance  # REQUIRED is an instance name
     machine_type: null  # If not specified, will default to n1-standard-1
+    preemptible: false  # Preemptible VMs are cheaper but not guaranteed to live long (or at all), and will terminate after 24hours.
     zone: null  # example: us-west1-b, will default to zone b of driver.region
     disk_size_gb: null  # Set only if needed
     image: 'projects/debian-cloud/global/images/family/debian-10'  # Points to an image, you can get a list of available images with command 'gcloud compute images list'.
