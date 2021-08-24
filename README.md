@@ -54,6 +54,7 @@ platforms:
   - name: ubuntu-instance-created-by-molecule  #  REQUIRED: this will be your VM name
     zone: us-central1-a  # Example: us-west1-b. Will default to zone b of region defined in driver (some regions do not have a zone-a)
     machine_type: n1-standard-1  # If not specified, will default to n1-standard-1
+    preemptible: false  # If not specified, will default to false. Preemptible instances have no SLA, in case of resource shortage in the zone they might get destroyed (or not be created) without warning, and will always be terminated after 24 hours. But they cost less and will mitigate the financial consequences of a PAYG licenced VM that would be forgotten.
     image: 'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts'  # Points to an image, you can get a list of available images with command 'gcloud compute images list'.
        # The expected format of this string is projects/<project>/global/images/family/<family-name>
        # (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
