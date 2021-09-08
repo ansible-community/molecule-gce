@@ -32,7 +32,7 @@
   poll: 0
 
 - name: Wait for instance(s) creation to complete
-  async_status:
+  ansible.builtin.async_status:
     jid: "{{ item.ansible_job_id }}"
   loop: "{{ async_results.results }}"
   register: server
@@ -45,14 +45,14 @@
     - "Dump instance config"
 
 - name: Wait for WinRM
-  wait_for:
+  ansible.builtin.wait_for:
     port: 5986
     host: "{{ item.networkInterfaces.0.accessConfigs.0.natIP if molecule_yml.driver.external_access else item.networkInterfaces.0.networkIP }}"
     delay: 10
   loop: "{{ server.results }}"
 
 - name: Prepare Windows User
-  script: ./files/windows_auth.py --instance {{ item.name }} --zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} --project {{ gcp_project_id }} --username molecule_usr
+  ansible.builtin.script: ./files/windows_auth.py --instance {{ item.name }} --zone {{ item.zone | default(molecule_yml.driver.region + '-b') }} --project {{ gcp_project_id }} --username molecule_usr
   args:
     executable: python3
   environment:
@@ -66,7 +66,7 @@
   delay: 10
 
 - name: Add password for instances in server list
-  set_fact:
+  ansible.builtin.set_fact:
     win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
   loop: "{{ server.results | zip(password.results) | list }}"
   no_log: true

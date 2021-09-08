@@ -10,22 +10,22 @@
 
   tasks:
     - name: Make sure if linux or windows either specified
-      assert:
+      ansible.builtin.assert:
         that:
           - molecule_yml.driver.instance_os_type | lower == "linux" or
             molecule_yml.driver.instance_os_type | lower == "windows"
         fail_msg: "instance_os_type is possible only to specify linux or windows either"
 
     - name: Include create_linux_instance tasks
-      include_tasks: tasks/create_linux_instance.yml
+      ansible.builtin.include_tasks: tasks/create_linux_instance.yml
       when:
         - molecule_yml.driver.instance_os_type  | lower == "linux"
 
     - name: Include create_windows_instance tasks
-      include_tasks: tasks/create_windows_instance.yml
+      ansible.builtin.include_tasks: tasks/create_windows_instance.yml
       when:
         - molecule_yml.driver.instance_os_type  | lower == "windows"
 
   handlers:
     - name: Import main handler tasks
-      import_tasks: handlers/main.yml
+      ansible.builtin.import_tasks: handlers/main.yml

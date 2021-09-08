@@ -19,6 +19,12 @@ provisioning test resources.
 
 Please note that this driver is currently in its early stage of development.
 
+This plugin requires google.cloud and community.crypto collections to be present:
+```
+ansible-galaxy collection install google.cloud
+ansible-galaxy collection install community.crypto
+```
+
 # Installation and Usage
 
 Install molecule-gce :
