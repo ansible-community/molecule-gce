@@ -173,4 +173,4 @@ class GCE(Driver):
     @property
     def required_collections(self) -> Dict[str, str]:
         # https://galaxy.ansible.com/google/cloud
-        return {"google.cloud": "1.0.2"}
+        return {"google.cloud": "1.0.2", "community.crypto": "1.8.0"}
