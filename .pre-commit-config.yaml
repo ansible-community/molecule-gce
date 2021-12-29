@@ -12,12 +12,12 @@ repos:
     hooks:
       - id: doc8
   - repo: https://github.com/psf/black
-    rev: 21.11b1
+    rev: 21.12b0
     hooks:
       - id: black
         language_version: python3
   - repo: https://github.com/pre-commit/pre-commit-hooks.git
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
@@ -33,6 +33,6 @@ repos:
         additional_dependencies:
           - flake8-black
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v5.2.1
+    rev: v5.3.1
     hooks:
       - id: ansible-lint
