@@ -7,6 +7,7 @@
   vars:
     ssh_identity_file: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
     gcp_project_id: "{{ molecule_yml.driver.project_id | default(lookup('env', 'GCE_PROJECT_ID')) }}"
+    ssh_username: "{{ molecule_yml.driver.username | default('molecule') }}"
 
   tasks:
     - name: Make sure if linux or windows either specified
