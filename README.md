@@ -49,6 +49,7 @@ driver:
   network_name: my-vpc  # specify if other than default
   subnetwork_name: my-subnet  # specify if other than default
   vpc_host_project: null  # if you use a shared vpc, set here the vpc host project. In that case, your GCP user needs the necessary permissions in the host project, see https://cloud.google.com/vpc/docs/shared-vpc#iam_in_shared_vpc
+  username: ssh-user # used to connect with ssh to the GCE instance, will default to 'molecule'
   auth_kind: serviceaccount  # set to machineaccount or serviceaccount or application - if set to null will read env GCP_AUTH_KIND
   service_account_email: null  # set to an email associated with the project - if set to null, will default to GCP_SERVICE_ACCOUNT_EMAIL. Should not be set if using auth_kind serviceaccount.
   service_account_file: /path/to/gce-sa.json  # set to the path to the JSON credentials file - if set to null, will default to env GCP_SERVICE_ACCOUNT_FILE
