@@ -16,7 +16,7 @@ platforms:
     zone: null  # example: us-west1-b, will default to zone b of driver.region
     tags:
       items:
-        - allow-ssh 
+        - allow-ssh
 provisioner:
   name: ansible
 verifier:
