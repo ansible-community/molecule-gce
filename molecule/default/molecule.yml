@@ -26,6 +26,9 @@ platforms:
     # (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
     # Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
     image_encryption_key: null  # only set it if you encrypt your images with your own encryption key
+    tags: null # Default will not apply tags
+      # items:
+      #   - allow-ssh # Defaulting to allow-ssh since the default instance_os_type is Linux
 provisioner:
   name: ansible
 verifier:

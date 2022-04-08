@@ -14,6 +14,9 @@ platforms:
   - name: linuxgce-createdbymolecule  # is an instance name
     machine_type: n1-standard-1  # define your machine type
     zone: null  # example: us-west1-b, will default to zone b of driver.region
+    tags:
+      items:
+        - allow-rdp
 provisioner:
   name: ansible
 verifier:
