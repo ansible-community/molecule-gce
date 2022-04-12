@@ -66,6 +66,10 @@ platforms:
        # The expected format of this string is projects/<project>/global/images/family/<family-name>
        # (see https://googlecloudplatform.github.io/compute-image-tools/daisy-automating-image-creation.html)
        #  Wille default to debian-10 image for os_type Linux, Windows 2019 for os_type Windows
+    tags: # Not required. Format must follow https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_instance_module.html#parameter-tags
+      items:
+        - allow-ssh
+        - allow-rdp
   - name: debian-instance-created-by-molecule
     zone: us-central1-a
     machine_type: n1-standard-2
