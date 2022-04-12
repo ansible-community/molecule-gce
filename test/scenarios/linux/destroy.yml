@@ -25,7 +25,7 @@
         - "Dump instance config"
 
     - name: Wait for instance(s) deletion to complete
-      async_status:
+      ansible.builtin.async_status:
         jid: "{{ item.ansible_job_id }}"
       register: server
       until: server.finished
@@ -35,4 +35,4 @@
 
   handlers:
     - name: Import main handler tasks
-      import_tasks: handlers/main.yml
+      ansible.builtin.import_tasks: handlers/main.yml
