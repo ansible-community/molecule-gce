@@ -3,5 +3,5 @@
   hosts: all
   tasks:
     - name: "Include testrole"
-      ansible.builtin.include_role:
+      include_role:
         name: "testrole"

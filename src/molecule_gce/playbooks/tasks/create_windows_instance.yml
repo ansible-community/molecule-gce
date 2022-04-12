@@ -67,7 +67,7 @@
   delay: 10
 
 - name: Add password for instances in server list
-  ansible.builtin.ansible.builtin.set_fact:
+  ansible.builtin.set_fact:
     win_instances: "{{ win_instances|default([]) + [dict(item[0], password=item[1].stdout_lines |last)] }}"
   loop: "{{ server.results | zip(password.results) | list }}"
   no_log: true

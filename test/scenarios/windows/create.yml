@@ -10,7 +10,7 @@
 
   tasks:
     - name: Make sure if linux or windows either specified
-      ansible.builtin.assert:
+      assert:
         that:
           - molecule_yml.driver.instance_os_type | lower == "linux" or
             molecule_yml.driver.instance_os_type | lower == "windows"
@@ -38,7 +38,7 @@
       register: my_subnetwork
 
     - name: set external access config
-      ansible.builtin.set_fact:
+      set_fact:
         external_access_config:
           - access_configs:
               - name: "External NAT"
@@ -46,15 +46,15 @@
       when: molecule_yml.driver.external_access
 
     - name: Include create_linux_instance tasks
-      ansible.builtin.include_tasks: tasks/create_linux_instance.yml
+      include_tasks: tasks/create_linux_instance.yml
       when:
         - molecule_yml.driver.instance_os_type  | lower == "linux"
 
     - name: Include create_windows_instance tasks
-      ansible.builtin.include_tasks: tasks/create_windows_instance.yml
+      include_tasks: tasks/create_windows_instance.yml
       when:
         - molecule_yml.driver.instance_os_type  | lower == "windows"
 
   handlers:
     - name: Import main handler tasks
-      ansible.builtin.import_tasks: handlers/main.yml
+      import_tasks: handlers/main.yml
