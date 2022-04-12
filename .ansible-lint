@@ -7,3 +7,5 @@ mock_modules:
   - google.cloud.gcp_compute_instance
   - google.cloud.gcp_compute_network_info
   - google.cloud.gcp_compute_subnetwork_info
+warn_list:
+  - fqcn-builtins
