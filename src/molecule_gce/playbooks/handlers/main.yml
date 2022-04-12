@@ -1,6 +1,6 @@
 ---
 - name: Populate instance config dict Linux
-  ansible.builtin.set_fact:
+  ansible.builtin.ansible.builtin.set_fact:
     instance_conf_dict:
       {
         "instance": "{{ instance_info.name }}",
@@ -17,7 +17,7 @@
   register: instance_conf_dict
 
 - name: Populate instance config dict Windows
-  ansible.builtin.set_fact:
+  ansible.builtin.ansible.builtin.set_fact:
     instance_conf_dict:
       {
         "instance": "{{ instance_info.name }}",
@@ -36,11 +36,11 @@
   register: instance_conf_dict
 
 - name: Wipe out instance config
-  ansible.builtin.set_fact:
+  ansible.builtin.ansible.builtin.set_fact:
     instance_conf: {}
 
 - name: Convert instance config dict to a list
-  ansible.builtin.set_fact:
+  ansible.builtin.ansible.builtin.set_fact:
     instance_conf: "{{ instance_conf_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
 
 - name: Dump instance config
