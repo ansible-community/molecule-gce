@@ -85,7 +85,7 @@ verifier:
 
 # Get Involved
 
-* Join us in the ``#ansible-molecule`` channel on [Freenode](https://freenode.net).
+* Join us in the ``#ansible-devtools`` channel on [Libera](https://web.libera.chat/?channel=#ansible-devtools).
 * Join the discussion in [molecule-users Forum](https://groups.google.com/forum/#!forum/molecule-users).
 * Join the community working group by checking the [wiki](https://github.com/ansible/community/wiki/Molecule).
 * Want to know about releases, subscribe to [ansible-announce list](https://groups.google.com/group/ansible-announce).
