@@ -33,6 +33,6 @@ repos:
         additional_dependencies:
           - flake8-black
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v6.0.2
+    rev: v6.2.0a0
     hooks:
       - id: ansible-lint
