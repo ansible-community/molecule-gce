@@ -12,6 +12,7 @@
     machine_type: "{{ item.machine_type | default('n1-standard-1') }}"
     metadata:
       ssh-keys: "{{ ssh_username }}:{{ keypair.public_key }}"
+      enable-oslogin: 'FALSE'
     scheduling:
       preemptible: "{{ item.preemptible | default(false) }}"
     disks:
