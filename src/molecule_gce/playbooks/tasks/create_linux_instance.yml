@@ -31,6 +31,24 @@
         access_configs: "{{ [{'name': 'instance_ip', 'type': 'ONE_TO_ONE_NAT'}] if molecule_yml.driver.external_access else [] }}"
     tags: "{{ item.tags | default(omit) }}"
     zone: "{{ item.zone | default(molecule_yml.driver.region + '-b') }}"
+    service_accounts: >-
+      [
+        {% for account in molecule_yml.driver.service_accounts | d([]) %}
+          {
+            {% if account.email == 'same-as-driver' and molecule_yml.driver.service_account_email is defined %}
+              'email': '{{ molecule_yml.driver.service_account_email }}',
+            {% elif account.email == 'same-as-driver' and molecule_yml.driver.service_account_file is defined %}
+              'email': '{{ (lookup('file', molecule_yml.driver.service_account_file) | from_json)['client_email'] }}',
+            {% else %}
+              'email': '{{ account.email }}',
+            {% endif %}
+
+            {% if account.scopes is defined %}
+              'scopes': {{ account.scopes }},
+            {% endif %}
+          },
+        {% endfor %}
+      ]
     project: "{{ gcp_project_id }}"
     scopes: "{{ molecule_yml.driver.scopes | default(['https://www.googleapis.com/auth/compute'], True) }}"
     service_account_email: "{{ molecule_yml.driver.service_account_email | default (omit, true) }}"

@@ -58,6 +58,7 @@ driver:
   external_access: false  # chose whether to create a public IP for the VM or not - default is private IP only
   instance_os_type: linux  # Either windows or linux. Will be considered linux by default. You can NOT mix Windows and Linux VMs in the same scenario.
 platforms:
+  # see src/molecule_gce/playbooks/tasks/create_linux_instance.yml for a complete list of supported keys
   - name: ubuntu-instance-created-by-molecule  #  REQUIRED: this will be your VM name
     zone: us-central1-a  # Example: us-west1-b. Will default to zone b of region defined in driver (some regions do not have a zone-a)
     machine_type: n1-standard-1  # If not specified, will default to n1-standard-1
